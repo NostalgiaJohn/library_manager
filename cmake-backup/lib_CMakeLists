@@ -1,0 +1,32 @@
+cmake_minimum_required(VERSION 3.25)
+project(library_book_manager)
+
+set(CMAKE_CXX_STANDARD 17)
+
+aux_source_directory(${PROJECT_SOURCE_DIR}/src/functions/common         FUNC_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/src/functions/borrow_history BORRW_HIST_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/src/functions/menus          MENUS_LIST)
+aux_source_directory(${PROJECT_SOURCE_DIR}/src/functions/utils          UTILS_LIST)
+
+# REMIND: (aux_source_dir...) method cannot be used for files
+#aux_source_directory(${PROJECT_SOURCE_DIR}/src/functions/utils/KMP/kmp_algorithms.cpp      KMP_PRG)
+#aux_source_directory(${PROJECT_SOURCE_DIR}/src/main.cpp                                    MAIN_PRG)
+set(MAIN_PRG ${PROJECT_SOURCE_DIR}/src/main.cpp)
+set(KMP_PRG ${PROJECT_SOURCE_DIR}/src/functions/utils/KMP/kmp_algorithms.cpp)
+
+add_library(func_static STATIC
+#        ${MAIN_PRG}
+        ${KMP_PRG}
+
+        ${FUNC_LIST}
+        ${BORRW_HIST_LIST}
+        ${MENUS_LIST}
+        ${UTILS_LIST}
+)
+
+set_target_properties(func_static PROPERTIES
+        OUTPUT_NAME "myfunc"
+)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+# REMIND: ${PROJECT_BINARY_DIR} symbolizes where the CMakeLists.txt file exist, while
+# REMIND:   ${PROJECT_SOURCE_DIR} stands the root of the project
